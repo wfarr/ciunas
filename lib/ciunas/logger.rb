@@ -1,5 +1,5 @@
 module Ciunas
-  class Logger < Rails::Rack::Logger
+  class Logger
     def initialize(app, opts = {})
       @app = app
       @opts = opts
@@ -16,10 +16,10 @@ module Ciunas
           Rails.logger.level = old_logger_level
         end
       else
-        super(env)
+        @app.call(env)
       end
     end
-    
+
     def tmp_log_level
       if defined?(ActiveSupport::BufferedLogger::Severity::ERROR)
         ActiveSupport::BufferedLogger::Severity::ERROR
@@ -28,4 +28,4 @@ module Ciunas
       end
     end
   end
-end  
+end
